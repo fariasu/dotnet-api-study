@@ -15,11 +15,13 @@ public class AutoMapping : Profile
 
     private void RequestToEntity()
     {
-        CreateMap<RequestCreateTaskJson, TaskEntity>();
+        CreateMap<RequestTaskJson, TaskEntity>();
     }
 
     private void EntityToResponse()
     {
         CreateMap<TaskEntity, ResponseCreatedTaskJson>();
+        CreateMap<TaskEntity, ResponseTaskShortJson>();
+        CreateMap<TaskEntity, ResponseTaskJson>();
     }
 }

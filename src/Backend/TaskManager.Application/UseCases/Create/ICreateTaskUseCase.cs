@@ -5,5 +5,5 @@ namespace TaskManager.Application.UseCases.Create;
 
 public interface ICreateTaskUseCase
 {
-    public Task<ResponseCreatedTaskJson> Execute(RequestCreateTaskJson request);
+    public Task<ResponseCreatedTaskJson> Execute(RequestTaskJson request);
 }

@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManager.Domain.Repositories.Db;
-using TaskManager.Domain.Repositories.Task;
+using TaskManager.Domain.Repositories.Tasks;
 using TaskManager.Infrastructure.DataAccess.Db;
-using TaskManager.Infrastructure.DataAccess.Repositories.Task;
+using TaskManager.Infrastructure.DataAccess.Repositories.Tasks;
 
 namespace TaskManager.Infrastructure.Extensions;
 
@@ -23,7 +23,9 @@ public static class DependencyInjectionExtension
     {
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-        services.AddScoped<ITaskRepositoryWriteOnly, TaskRepositoryWriteOnly>();
+        services.AddScoped<ITaskRepositoryWriteOnly, TaskRepository>();
+        services.AddScoped<ITaskRepositoryReadOnly, TaskRepository>();
+        services.AddScoped<ITaskRepositoryUpdateOnly, TaskRepository>();
     }
 
     private static void AddDbContext(IServiceCollection services, IConfiguration configuration)

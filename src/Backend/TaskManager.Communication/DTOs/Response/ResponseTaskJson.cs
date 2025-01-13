@@ -1,9 +1,9 @@
 ﻿using TaskManager.Domain.Enums;
 using TaskStatus = TaskManager.Domain.Enums.TaskStatus;
 
-namespace TaskManager.Communication.DTOs.Request;
+namespace TaskManager.Communication.DTOs.Response;
 
-public record RequestCreateTaskJson
+public class ResponseTaskJson
 {
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;

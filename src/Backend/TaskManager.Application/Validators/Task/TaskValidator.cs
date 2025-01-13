@@ -3,7 +3,7 @@ using TaskManager.Communication.DTOs.Request;
 
 namespace TaskManager.Application.Validators.Task;
 
-public class TaskValidator : AbstractValidator<RequestCreateTaskJson>
+public class TaskValidator : AbstractValidator<RequestTaskJson>
 {
     public TaskValidator()
     {

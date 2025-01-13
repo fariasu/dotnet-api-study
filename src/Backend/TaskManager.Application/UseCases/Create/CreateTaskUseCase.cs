@@ -4,7 +4,7 @@ using TaskManager.Communication.DTOs.Request;
 using TaskManager.Communication.DTOs.Response;
 using TaskManager.Domain.Entities;
 using TaskManager.Domain.Repositories.Db;
-using TaskManager.Domain.Repositories.Task;
+using TaskManager.Domain.Repositories.Tasks;
 using TaskManager.Exception.ExceptionsBase;
 
 namespace TaskManager.Application.UseCases.Create;
@@ -22,7 +22,7 @@ public class CreateTaskUseCase : ICreateTaskUseCase
         _repositoryWriteOnly = taskRepositoryWriteOnly;
     }
 
-    public async Task<ResponseCreatedTaskJson> Execute(RequestCreateTaskJson request)
+    public async Task<ResponseCreatedTaskJson> Execute(RequestTaskJson request)
     {
         await Validate(request);
         
@@ -30,12 +30,12 @@ public class CreateTaskUseCase : ICreateTaskUseCase
         
         await _repositoryWriteOnly.CreateTask(map);
 
-        await _unitOfWork.Commit();
+        await _unitOfWork.CommitAsync();
         
         return _mapper.Map<ResponseCreatedTaskJson>(map);
     }
     
-    private async Task Validate(RequestCreateTaskJson request)
+    private async Task Validate(RequestTaskJson request)
     {
         var validator = new TaskValidator();
 
