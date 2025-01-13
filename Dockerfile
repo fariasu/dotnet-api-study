@@ -3,7 +3,7 @@ WORKDIR /app
 
 COPY src/ .
 
-WORKDIR /app/CashFlow.Api
+WORKDIR /app/TaskManager.API
 
 RUN dotnet restore
 
@@ -14,4 +14,4 @@ WORKDIR /app
 
 COPY --from=build-env /app/out .
 
-ENTRYPOINT ["dotnet", "CashFlow.Api.dll"]
+ENTRYPOINT ["dotnet", "TaskManager.API.dll"]
