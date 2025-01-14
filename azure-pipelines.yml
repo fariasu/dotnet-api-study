@@ -6,8 +6,8 @@ resources:
 
 variables:
   dockerRegistryServiceConnection: '2ae77bfc-5375-42b9-8b25-3cf4e39ef569'
-  imageRepository: 'apicashflow'
-  containerRegistry: 'apicashflow.azurecr.io'
+  imageRepository: 'taskmanager'
+  containerRegistry: 'taskmanager.azurecr.io'
   dockerfilePath: 'Dockerfile'
   tag: '$(Build.BuildId)'
 
