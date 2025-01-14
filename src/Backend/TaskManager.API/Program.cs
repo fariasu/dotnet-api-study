@@ -9,6 +9,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//teste
+builder.WebHost.ConfigureKestrel(options => options.ListenAnyIP(8080));
+
 builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
