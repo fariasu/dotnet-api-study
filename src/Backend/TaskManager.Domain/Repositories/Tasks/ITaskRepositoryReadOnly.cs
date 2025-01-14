@@ -6,6 +6,6 @@ public interface ITaskRepositoryReadOnly
 {
     public Task<List<TaskEntity>> GetAll();
     
-    public Task<TaskEntity?> GetByIdNoTracking(int id);
-    public Task<TaskEntity?> GetById(int id);
+    public Task<TaskEntity?> GetByIdNoTracking(long id);
+    public Task<TaskEntity?> GetById(long id);
 }

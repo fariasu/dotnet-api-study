@@ -5,5 +5,5 @@ namespace TaskManager.Application.UseCases.GetById;
 
 public interface IGetByIdUseCase
 {
-    public Task<ResponseTaskJson> Execute(int id);
+    public Task<ResponseTaskJson> Execute(long id);
 }

@@ -2,5 +2,5 @@
 
 public abstract class DatabaseVersions
 {
-    public const int TABLE_TASK = 1;
+    public const int TABLE_TASK_AND_USERS = 2;
 }

@@ -16,7 +16,7 @@ public class GetByIdUseCase : IGetByIdUseCase
         _taskRepositoryReadOnly = taskRepositoryReadOnly;
     }
     
-    public async Task<ResponseTaskJson> Execute(int id)
+    public async Task<ResponseTaskJson> Execute(long id)
     {
         var result = await _taskRepositoryReadOnly.GetByIdNoTracking(id);
 

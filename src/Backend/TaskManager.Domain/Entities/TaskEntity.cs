@@ -12,4 +12,6 @@ public class TaskEntity
     public DateTime EndDate { get; set; }
     public TaskPriority TaskPriority { get; set; } = TaskPriority.Normal;
     public TaskStatus TaskStatus { get; set; } = TaskStatus.Pending;
+    
+    public long CreatorId { get; set; } = 0;
 }

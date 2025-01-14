@@ -2,5 +2,5 @@
 
 public interface IDeleteTaskUseCase
 {
-    public Task Execute(int id);
+    public Task Execute(long id);
 }

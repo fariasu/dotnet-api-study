@@ -19,7 +19,7 @@ public class DeleteTaskUseCase : IDeleteTaskUseCase
         _repositoryReadOnly = repositoryReadOnly;
     }
 
-    public async Task Execute(int id)
+    public async Task Execute(long id)
     {
         var result = await _repositoryReadOnly.GetById(id);
 

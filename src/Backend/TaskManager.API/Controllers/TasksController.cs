@@ -37,30 +37,30 @@ public class TasksController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{id:long}")]
     [ProducesResponseType(typeof(ResponseTaskJson), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetById([FromServices] IGetByIdUseCase useCase, [FromRoute] int id)
+    public async Task<IActionResult> GetById([FromServices] IGetByIdUseCase useCase, [FromRoute] long id)
     {
         var response = await useCase.Execute(id);
 
         return Ok(response);
     }
 
-    [HttpPut("{id:int}")]
+    [HttpPut("{id:long}")]
     [ProducesResponseType(typeof(ResponseTaskJson), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> UpdateTaskById([FromServices] IUpdateTaskUseCase useCase, [FromRoute] int id, [FromBody] RequestTaskJson request)
+    public async Task<IActionResult> UpdateTaskById([FromServices] IUpdateTaskUseCase useCase, [FromRoute] long id, [FromBody] RequestTaskJson request)
     {
         await useCase.Execute(id, request);
         
         return NoContent();
     }
 
-    [HttpDelete("{id:int}")]
+    [HttpDelete("{id:long}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> DeleteById([FromServices] IDeleteTaskUseCase useCase, [FromRoute] int id)
+    public async Task<IActionResult> DeleteById([FromServices] IDeleteTaskUseCase useCase, [FromRoute] long id)
     {
         await useCase.Execute(id);
         

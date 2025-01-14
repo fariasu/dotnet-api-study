@@ -29,12 +29,12 @@ public class TaskRepository : ITaskRepositoryWriteOnly, ITaskRepositoryReadOnly,
         return await _dbContext.Tasks.AsNoTracking().ToListAsync();
     }
 
-    public async Task<TaskEntity?> GetByIdNoTracking(int id)
+    public async Task<TaskEntity?> GetByIdNoTracking(long id)
     {
         return await _dbContext.Tasks.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task<TaskEntity?> GetById(int id)
+    public async Task<TaskEntity?> GetById(long id)
     {
         return await _dbContext.Tasks.FirstOrDefaultAsync(x => x.Id == id);
     }

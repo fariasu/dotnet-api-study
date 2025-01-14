@@ -23,7 +23,7 @@ public class UpdateTaskUseCase : IUpdateTaskUseCase
         _repositoryReadOnly = repositoryReadOnly;
     }
     
-    public async Task Execute(int id, RequestTaskJson requestTask)
+    public async Task Execute(long id, RequestTaskJson requestTask)
     {
         await Validate(requestTask);
         
