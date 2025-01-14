@@ -16,6 +16,8 @@ public class PasswordValidator<T> : PropertyValidator<T, string>
         return $"{{{ERROR_MESSAGE_KEY}}}";
     }
 
+    public override string Name => "PasswordValidator";
+
     public override bool IsValid(ValidationContext<T> context, string password)
     {
         if (string.IsNullOrEmpty(password))
@@ -54,9 +56,6 @@ public class PasswordValidator<T> : PropertyValidator<T, string>
             return false;
         }
 
-
         return true;
     }
-
-    public override string Name { get; }
 }

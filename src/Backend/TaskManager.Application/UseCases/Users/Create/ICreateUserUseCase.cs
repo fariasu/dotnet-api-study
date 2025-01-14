@@ -5,5 +5,5 @@ namespace TaskManager.Application.UseCases.Users.Create;
 
 public interface ICreateUserUseCase
 {
-    public Task<ResponseUserCreatedJson> Execute(RequestRegisterUserJson request);
+    public Task<ResponseCreatedUserJson> Execute(RequestRegisterUserJson request);
 }

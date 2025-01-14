@@ -36,7 +36,7 @@ public class CreateUserUseCase : ICreateUserUseCase
         _tokenGenerator = tokenGenerator;
     }
     
-    public async Task<ResponseUserCreatedJson> Execute(RequestRegisterUserJson request)
+    public async Task<ResponseCreatedUserJson> Execute(RequestRegisterUserJson request)
     {
         await Validate(request);
 
@@ -50,7 +50,7 @@ public class CreateUserUseCase : ICreateUserUseCase
 
         var generatedToken = _tokenGenerator.GenerateToken(userEntity);
 
-        return new ResponseUserCreatedJson()
+        return new ResponseCreatedUserJson()
         {
             Name = userEntity.Name,
             Token = generatedToken

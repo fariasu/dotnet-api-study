@@ -6,6 +6,7 @@ using TaskManager.Application.UseCases.Tasks.GetAll;
 using TaskManager.Application.UseCases.Tasks.GetById;
 using TaskManager.Application.UseCases.Tasks.Update;
 using TaskManager.Application.UseCases.Users.Create;
+using TaskManager.Application.UseCases.Users.Login;
 
 namespace TaskManager.Application.Extensions;
 
@@ -31,5 +32,6 @@ public static class DependencyInjectionExtension
         services.AddScoped<IDeleteTaskUseCase, DeleteTaskUseCase>();
 
         services.AddScoped<ICreateUserUseCase, CreateUserUseCase>();
+        services.AddScoped<ILoginUserUseCase, LoginUserUseCase>();
     }
 }

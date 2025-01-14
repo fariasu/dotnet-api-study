@@ -23,4 +23,9 @@ public class UserRepository : IUserRepositoryReadOnly, IUserRepositoryWriteOnly,
     {
         return await _dbContext.Users.AsNoTracking().AnyAsync(user => user.Email == email);
     }
+
+    public async Task<UserEntity?> GetActiveUserWithEmail(string email)
+    {
+        return await _dbContext.Users.FirstOrDefaultAsync(user => user.Email == email);
+    }
 }
