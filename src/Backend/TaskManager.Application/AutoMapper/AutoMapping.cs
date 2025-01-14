@@ -17,6 +17,7 @@ public class AutoMapping : Profile
     private void RequestToEntity()
     {
         CreateMap<RequestTaskJson, TaskEntity>();
+        CreateMap<RequestUpdateProfileJson, UserEntity>();
 
         CreateMap<RequestRegisterUserJson, UserEntity>()
             .ForMember(dest 

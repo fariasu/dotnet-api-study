@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using TaskManager.Application.UseCases.Users.Create;
 using TaskManager.Application.UseCases.Users.Login;
+using TaskManager.Application.UseCases.Users.Update;
 using TaskManager.Communication.DTOs.Tasks.Response;
 using TaskManager.Communication.DTOs.Users.Requests;
 using TaskManager.Communication.DTOs.Users.Responses;
@@ -10,6 +13,7 @@ namespace TaskManager.API.Controllers;
 
 [Route("[controller]")]
 [ApiController]
+[EnableRateLimiting("FixedPolicy")]
 public class UserController : ControllerBase
 {
     [HttpPost("register")]
@@ -30,5 +34,16 @@ public class UserController : ControllerBase
         var result = await useCase.Execute(request);
         
         return Ok(result);
+    }
+
+    [Authorize]
+    [HttpPost("update")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UpdateUser([FromServices] IUpdateProfileUseCase useCase, [FromBody] RequestUpdateProfileJson request)
+    {
+        await useCase.Execute(request);
+
+        return Ok();
     }
 }

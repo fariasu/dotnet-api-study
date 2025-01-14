@@ -1,7 +1,11 @@
 ﻿using System.Reflection;
 using System.Text;
+using System.Threading.RateLimiting;
 using FluentMigrator.Runner;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +33,7 @@ public static class DependencyInjectionExtension
         AddDbContext(services, configuration);
         AddFluentMigrator_MySql(services, configuration);
         AddAuthentication(services, configuration);
+        AddRateLimiting(services);
         
         services.AddScoped<IPasswordEncrypter, PasswordEncrypter>();
         services.AddScoped<ITokenGenerator, TokenGenerator>();
@@ -88,6 +93,24 @@ public static class DependencyInjectionExtension
                 IssuerSigningKey =
                     new SymmetricSecurityKey(
                         Encoding.UTF8.GetBytes(configuration.GetValue<string>("Settings:Jwt:SecretKey")!))
+            };
+        });
+    }
+
+    private static void AddRateLimiting(IServiceCollection services)
+    {
+        services.AddRateLimiter(options =>
+        {
+            options.AddFixedWindowLimiter("FixedPolicy", limiterOptions =>
+            {
+                limiterOptions.PermitLimit = 10;
+                limiterOptions.Window = TimeSpan.FromSeconds(20);
+            });
+
+            options.OnRejected = (context, token) =>
+            {
+                context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+                return new ValueTask(context.HttpContext.Response.WriteAsync("You have exceeded the rate limit!", token));
             };
         });
     }

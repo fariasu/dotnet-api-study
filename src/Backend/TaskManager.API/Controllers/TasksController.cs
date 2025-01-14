@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using TaskManager.Application.UseCases.Tasks.Create;
 using TaskManager.Application.UseCases.Tasks.Delete;
 using TaskManager.Application.UseCases.Tasks.GetAll;
@@ -14,6 +15,7 @@ namespace TaskManager.API.Controllers;
 [Route("[controller]")]
 [ApiController]
 [Authorize]
+[EnableRateLimiting("FixedPolicy")]
 public class TasksController : ControllerBase
 {
     [HttpPost("create")]
