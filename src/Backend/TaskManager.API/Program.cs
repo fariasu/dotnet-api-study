@@ -40,10 +40,11 @@ builder.Services.AddSwaggerGen(config =>
 });
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
+
 
 var app = builder.Build();
 

@@ -24,19 +24,19 @@ public class TaskRepository : ITaskRepositoryWriteOnly, ITaskRepositoryReadOnly,
         _dbContext.Tasks.Remove(taskEntity);
     }
 
-    public async Task<List<TaskEntity>> GetAll()
+    public async Task<List<TaskEntity>?> GetAll(long creatorId)
     {
-        return await _dbContext.Tasks.AsNoTracking().ToListAsync();
+        return await _dbContext.Tasks.AsNoTracking().Where(task => task.CreatorId == creatorId).ToListAsync();
     }
 
-    public async Task<TaskEntity?> GetByIdNoTracking(long id)
+    public async Task<TaskEntity?> GetByIdNoTracking(long id, long creatorId)
     {
-        return await _dbContext.Tasks.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        return await _dbContext.Tasks.AsNoTracking().FirstOrDefaultAsync(task => task.Id == id && task.CreatorId == creatorId);
     }
 
-    public async Task<TaskEntity?> GetById(long id)
+    public async Task<TaskEntity?> GetById(long id, long creatorId)
     {
-        return await _dbContext.Tasks.FirstOrDefaultAsync(x => x.Id == id);
+        return await _dbContext.Tasks.FirstOrDefaultAsync(task => task.Id == id && task.CreatorId == creatorId);
     }
 
     public void Update(TaskEntity task)

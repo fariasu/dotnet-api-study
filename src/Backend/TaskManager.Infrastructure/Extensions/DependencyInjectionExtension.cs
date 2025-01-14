@@ -11,11 +11,13 @@ using TaskManager.Domain.Repositories.Tasks;
 using TaskManager.Domain.Repositories.Users;
 using TaskManager.Domain.Security.Cryptography;
 using TaskManager.Domain.Security.Tokens;
+using TaskManager.Domain.Services;
 using TaskManager.Infrastructure.DataAccess.Db;
 using TaskManager.Infrastructure.DataAccess.Repositories.Tasks;
 using TaskManager.Infrastructure.DataAccess.Repositories.Users;
 using TaskManager.Infrastructure.Security.Cryptography;
 using TaskManager.Infrastructure.Security.Tokens;
+using TaskManager.Infrastructure.Services;
 
 namespace TaskManager.Infrastructure.Extensions;
 
@@ -30,6 +32,9 @@ public static class DependencyInjectionExtension
         
         services.AddScoped<IPasswordEncrypter, PasswordEncrypter>();
         services.AddScoped<ITokenGenerator, TokenGenerator>();
+        
+        services.AddScoped<ITokenProvider, TokenProvider>();
+        services.AddScoped<ILoggedUserService, LoggedUserService>();
     }
 
     private static void AddRepositories(IServiceCollection services)
