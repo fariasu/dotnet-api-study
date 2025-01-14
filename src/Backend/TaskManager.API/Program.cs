@@ -62,6 +62,9 @@ if (app.Environment.IsProduction())
     });
 }
 
+//Dev
+app.UseDeveloperExceptionPage();
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
