@@ -16,7 +16,7 @@ namespace TaskManager.API.Controllers;
 [Authorize]
 public class TasksController : ControllerBase
 {
-    [HttpPost]
+    [HttpPost("create")]
     [ProducesResponseType(typeof(ResponseCreatedTaskJson), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -28,7 +28,7 @@ public class TasksController : ControllerBase
         return Created("", response);
     }
 
-    [HttpGet]
+    [HttpGet("get")]
     [ProducesResponseType(typeof(ResponseTasksJson), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -42,7 +42,7 @@ public class TasksController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("{id:long}")]
+    [HttpGet("get/{id:long}")]
     [ProducesResponseType(typeof(ResponseTaskJson), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -53,7 +53,7 @@ public class TasksController : ControllerBase
         return Ok(response);
     }
 
-    [HttpPut("{id:long}")]
+    [HttpPut("update/{id:long}")]
     [ProducesResponseType(typeof(ResponseTaskJson), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -64,7 +64,7 @@ public class TasksController : ControllerBase
         return NoContent();
     }
 
-    [HttpDelete("{id:long}")]
+    [HttpDelete("delete/{id:long}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
