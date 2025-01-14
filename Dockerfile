@@ -1,19 +1,14 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /app
 
-COPY src/Backend/ .
+COPY . .
 
-WORKDIR /app/TaskManager.API
+RUN dotnet restore TaskManager.sln
 
-RUN dotnet restore
-
-RUN dotnet publish -c Release -o /app/out
+RUN dotnet publish TaskManager.sln -c Release -o /app/out
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 
 COPY --from=build-env /app/out .
-
-EXPOSE 8080
-
-ENTRYPOINT ["dotnet", "TaskManager.API.dll"]
+ENTRYPOINT ["dotnet", "TaskManager.API.dll"] 
