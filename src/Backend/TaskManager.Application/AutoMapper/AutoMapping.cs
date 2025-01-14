@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using TaskManager.Communication.DTOs.Request;
-using TaskManager.Communication.DTOs.Response;
+using TaskManager.Communication.DTOs.Tasks.Request;
+using TaskManager.Communication.DTOs.Tasks.Response;
+using TaskManager.Communication.DTOs.Users.Requests;
 using TaskManager.Domain.Entities;
 
 namespace TaskManager.Application.AutoMapper;
@@ -16,6 +17,11 @@ public class AutoMapping : Profile
     private void RequestToEntity()
     {
         CreateMap<RequestTaskJson, TaskEntity>();
+
+        CreateMap<RequestRegisterUserJson, UserEntity>()
+            .ForMember(dest 
+                => dest.Password, opt 
+                => opt.Ignore());
     }
 
     private void EntityToResponse()

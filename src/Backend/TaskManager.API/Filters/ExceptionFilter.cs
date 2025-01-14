@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using TaskManager.Communication.DTOs.Response;
+using TaskManager.Communication.DTOs.Tasks.Response;
 using TaskManager.Exception.ExceptionsBase;
 
 namespace TaskManager.API.Filters;

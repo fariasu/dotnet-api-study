@@ -1,12 +1,21 @@
 ﻿using System.Reflection;
+using System.Text;
 using FluentMigrator.Runner;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using TaskManager.Domain.Repositories.Db;
 using TaskManager.Domain.Repositories.Tasks;
+using TaskManager.Domain.Repositories.Users;
+using TaskManager.Domain.Security.Cryptography;
+using TaskManager.Domain.Security.Tokens;
 using TaskManager.Infrastructure.DataAccess.Db;
 using TaskManager.Infrastructure.DataAccess.Repositories.Tasks;
+using TaskManager.Infrastructure.DataAccess.Repositories.Users;
+using TaskManager.Infrastructure.Security.Cryptography;
+using TaskManager.Infrastructure.Security.Tokens;
 
 namespace TaskManager.Infrastructure.Extensions;
 
@@ -17,6 +26,10 @@ public static class DependencyInjectionExtension
         AddRepositories(services);
         AddDbContext(services, configuration);
         AddFluentMigrator_MySql(services, configuration);
+        AddAuthentication(services, configuration);
+        
+        services.AddScoped<IPasswordEncrypter, PasswordEncrypter>();
+        services.AddScoped<ITokenGenerator, TokenGenerator>();
     }
 
     private static void AddRepositories(IServiceCollection services)
@@ -26,6 +39,10 @@ public static class DependencyInjectionExtension
         services.AddScoped<ITaskRepositoryWriteOnly, TaskRepository>();
         services.AddScoped<ITaskRepositoryReadOnly, TaskRepository>();
         services.AddScoped<ITaskRepositoryUpdateOnly, TaskRepository>();
+        
+        services.AddScoped<IUserRepositoryWriteOnly, UserRepository>();
+        services.AddScoped<IUserRepositoryReadOnly, UserRepository>();
+        services.AddScoped<IUserRepositoryUpdateOnly, UserRepository>();
     }
 
     private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
@@ -47,6 +64,26 @@ public static class DependencyInjectionExtension
             options.AddMySql5()
                 .WithGlobalConnectionString(connectionString)
                 .ScanIn(Assembly.Load("TaskManager.Infrastructure")).For.All();
+        });
+    }
+
+    private static void AddAuthentication(IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddAuthentication(config =>
+        {
+            config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(config =>
+        {
+            config.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ClockSkew = new TimeSpan(0),
+                IssuerSigningKey =
+                    new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(configuration.GetValue<string>("Settings:Jwt:SecretKey")!))
+            };
         });
     }
 }

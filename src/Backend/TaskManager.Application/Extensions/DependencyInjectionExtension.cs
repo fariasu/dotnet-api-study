@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TaskManager.Application.AutoMapper;
-using TaskManager.Application.UseCases.Create;
-using TaskManager.Application.UseCases.Delete;
-using TaskManager.Application.UseCases.GetAll;
-using TaskManager.Application.UseCases.GetById;
-using TaskManager.Application.UseCases.Update;
+using TaskManager.Application.UseCases.Tasks.Create;
+using TaskManager.Application.UseCases.Tasks.Delete;
+using TaskManager.Application.UseCases.Tasks.GetAll;
+using TaskManager.Application.UseCases.Tasks.GetById;
+using TaskManager.Application.UseCases.Tasks.Update;
+using TaskManager.Application.UseCases.Users.Create;
 
 namespace TaskManager.Application.Extensions;
 
@@ -28,5 +29,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IGetByIdUseCase, GetByIdUseCase>();
         services.AddScoped<IUpdateTaskUseCase, UpdateTaskUseCase>();
         services.AddScoped<IDeleteTaskUseCase, DeleteTaskUseCase>();
+
+        services.AddScoped<ICreateUserUseCase, CreateUserUseCase>();
     }
 }
