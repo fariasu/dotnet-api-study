@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /app
 
-COPY src/ .
+COPY src/Backend/ .
 
 WORKDIR /app/TaskManager.API
 
