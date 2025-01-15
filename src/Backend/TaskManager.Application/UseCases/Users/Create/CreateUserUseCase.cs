@@ -7,7 +7,6 @@ using TaskManager.Domain.Entities;
 using TaskManager.Domain.Repositories.Db;
 using TaskManager.Domain.Repositories.Users;
 using TaskManager.Domain.Security.Cryptography;
-using TaskManager.Domain.Security.Tokens;
 using TaskManager.Exception.ExceptionsBase;
 
 namespace TaskManager.Application.UseCases.Users.Create;
@@ -17,8 +16,7 @@ public class CreateUserUseCase(
     IUnitOfWork unitOfWork,
     IUserRepositoryWriteOnly userRepositoryWriteOnly,
     IUserRepositoryReadOnly userRepositoryReadOnly,
-    IPasswordEncrypter passwordEncrypter,
-    ITokenGenerator tokenGenerator)
+    IPasswordEncrypter passwordEncrypter)
     : ICreateUserUseCase
 {
     public async Task<ResponseCreatedUserJson> Execute(RequestRegisterUserJson request)
@@ -33,12 +31,10 @@ public class CreateUserUseCase(
         
         await unitOfWork.CommitAsync();
 
-        var generatedToken = tokenGenerator.GenerateToken(userEntity);
 
-        return new ResponseCreatedUserJson()
+        return new ResponseCreatedUserJson
         {
             Name = userEntity.Name,
-            Token = generatedToken
         };
     }
 

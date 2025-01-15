@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using TaskManager.Application.Validators.Users;
+using TaskManager.Communication.DTOs.Tasks.Response;
 using TaskManager.Communication.DTOs.Users.Requests;
 using TaskManager.Communication.DTOs.Users.Responses;
 using TaskManager.Domain.Entities;
@@ -12,19 +13,17 @@ using TaskManager.Exception.ExceptionsBase;
 namespace TaskManager.Application.UseCases.Users.Login;
 
 public class LoginUserUseCase(
-    IMapper mapper,
-    IUnitOfWork unitOfWork,
     IUserRepositoryReadOnly userRepositoryReadOnly,
     IPasswordEncrypter passwordEncrypter,
     ITokenGenerator tokenGenerator)
     : ILoginUserUseCase
 {
     
-    public async Task<ResponseCreatedUserJson> Execute(RequestLoginUserJson request)
+    public async Task<ResponseLoggedUserJson> Execute(RequestLoginUserJson request)
     {
         var entity = await Validate(request);
 
-        return new ResponseCreatedUserJson()
+        return new ResponseLoggedUserJson()
         {
             Name = entity.Name,
             Token = tokenGenerator.GenerateToken(entity),

@@ -1,9 +1,9 @@
-﻿using TaskManager.Communication.DTOs.Users.Requests;
-using TaskManager.Communication.DTOs.Users.Responses;
+﻿using TaskManager.Communication.DTOs.Tasks.Response;
+using TaskManager.Communication.DTOs.Users.Requests;
 
 namespace TaskManager.Application.UseCases.Users.Login;
 
 public interface ILoginUserUseCase
 {
-    public Task<ResponseCreatedUserJson> Execute(RequestLoginUserJson request);
+    public Task<ResponseLoggedUserJson> Execute(RequestLoginUserJson request);
 }
