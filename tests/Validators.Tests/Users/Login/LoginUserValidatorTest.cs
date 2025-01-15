@@ -1,4 +1,4 @@
-﻿using CommonTestUtilities.Requests;
+﻿using CommonTestUtilities.Users.Requests;
 using FluentAssertions;
 using TaskManager.Application.Validators.Users;
 

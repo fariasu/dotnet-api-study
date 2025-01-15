@@ -1,7 +1,7 @@
 ﻿using Bogus;
 using TaskManager.Communication.DTOs.Users.Requests;
 
-namespace CommonTestUtilities.Requests;
+namespace CommonTestUtilities.Users.Requests;
 
 public static class RequestLoginUserJsonBuilder
 {

@@ -14,4 +14,8 @@
       <ProjectReference Include="..\..\src\Backend\TaskManager.Communication\TaskManager.Communication.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Users\" />
+    </ItemGroup>
+
 </Project>
