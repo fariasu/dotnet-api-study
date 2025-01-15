@@ -1,7 +1,7 @@
 
 # TaskManager API
 
-TaskManager API é uma aplicação backend desenvolvida com .NET 8, que permite gerenciar tarefas de forma eficiente. A API oferece funcionalidades como autenticação de usuários, gerenciamento de tarefas (CRUD) e suporte a login e registro. Foi desenvolvida como um projeto de estudo para aplicar boas práticas e tecnologias modernas no desenvolvimento de APIs.
+TaskManager API é uma aplicação backend desenvolvida com .NET 8, que permite gerenciar tarefas de forma eficiente. A API oferece funcionalidades como autenticação de usuários, gerenciamento de tarefas (CRUD) e suporte a login e registro. Foi desenvolvida como um projeto de estudo para aplicar boas práticas e tecnologias modernas no desenvolvimento de APIs, inclui testes unitários para garantir a qualidade e a confiabilidade do código.
 
 ## Índice
 
@@ -29,21 +29,23 @@ TaskManager API é uma aplicação backend desenvolvida com .NET 8, que permite 
   - Build automático da aplicação.
   - Criação de imagens Docker.
   - Deploy automatizado para o Azure App Service.
+- **Testes unitários** para garantir a robustez e a confiabilidade do sistema.
 
 ## Tecnologias Utilizadas
 
-- **.NET 8**
-- **Entity Framework Core** (ORM principal)
-- **Dapper** (usado junto com FluentMigrator)
-- **FluentMigrator** (controle de migrações)
+- **.NET 8** (framework principal para desenvolvimento backend)
+- **Entity Framework Core** (ORM utilizado para interação com o banco de dados)
+- **Dapper** (usado junto com **FluentMigrator** para controle e automação das migrações)
 - **FluentValidation** (validação de dados)
+- **FluentAssertions** (biblioteca para melhorar a clareza e legibilidade nos testes)
+- **Bogus** (gerador de dados fake para testes)
+- **xUnit** (framework para escrita de testes unitários e de integração)
 - **AutoMapper** (mapeamento entre DTOs e entidades)
-- **JWTBearer** (autenticação)
+- **JWTBearer** (implementação de autenticação segura usando tokens JWT)
 - **MySQL** (banco de dados hospedado na Azure)
 - **BCrypt** (criptografia de senhas)
-- **Swagger** (documentação)
-- **Docker** (containerização)
-- **Azure** (hospedagem e CI/CD)
+- **Swagger** (documentação interativa da API)
+- **Azure** (utilizado para hospedagem do banco de dados, serviço web e CI/CD)
 
 ## Requisitos
 
