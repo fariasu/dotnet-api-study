@@ -10,37 +10,27 @@ using TaskManager.Exception.ExceptionsBase;
 
 namespace TaskManager.Application.UseCases.Tasks.Create;
 
-public class CreateTaskUseCase : ICreateTaskUseCase
+public class CreateTaskUseCase(
+    IMapper mapper,
+    IUnitOfWork unitOfWork,
+    ITaskRepositoryWriteOnly
+        taskRepositoryWriteOnly,
+    ILoggedUserService loggedUserService)
+    : ICreateTaskUseCase
 {
-    private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly ITaskRepositoryWriteOnly _repositoryWriteOnly;
-    private readonly ILoggedUserService _loggedUserService;
-
-    public CreateTaskUseCase(IMapper mapper, 
-        IUnitOfWork unitOfWork, 
-        ITaskRepositoryWriteOnly 
-            taskRepositoryWriteOnly,
-        ILoggedUserService loggedUserService)
-    {
-        _mapper = mapper;
-        _unitOfWork = unitOfWork;
-        _repositoryWriteOnly = taskRepositoryWriteOnly;
-        _loggedUserService = loggedUserService;
-    }
-
+    
     public async Task<ResponseCreatedTaskJson> Execute(RequestTaskJson request)
     {
         await Validate(request);
         
-        var taskEntity = _mapper.Map<TaskEntity>(request);
-        taskEntity.CreatorId = _loggedUserService.User().Result.Id;
+        var taskEntity = mapper.Map<TaskEntity>(request);
+        taskEntity.CreatorId = loggedUserService.User().Result.Id;
 
-        await _repositoryWriteOnly.CreateTask(taskEntity);
+        await taskRepositoryWriteOnly.CreateTask(taskEntity);
 
-        await _unitOfWork.CommitAsync();
+        await unitOfWork.CommitAsync();
         
-        return _mapper.Map<ResponseCreatedTaskJson>(taskEntity);
+        return mapper.Map<ResponseCreatedTaskJson>(taskEntity);
     }
     
     private async Task Validate(RequestTaskJson request)

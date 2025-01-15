@@ -5,4 +5,5 @@ namespace TaskManager.Domain.Repositories.Users;
 public interface IUserRepositoryWriteOnly
 {
     public Task CreateUser(UserEntity userEntity);
+    public void UpdatePassword(UserEntity userEntity);
 }

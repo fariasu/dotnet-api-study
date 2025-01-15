@@ -8,43 +8,31 @@ using TaskManager.Exception.ExceptionsBase;
 
 namespace TaskManager.Application.UseCases.Tasks.Update;
 
-public class UpdateTaskUseCase : IUpdateTaskUseCase
+public class UpdateTaskUseCase(
+    IMapper mapper,
+    IUnitOfWork unitOfWork,
+    ITaskRepositoryUpdateOnly repositoryUpdateOnly,
+    ITaskRepositoryReadOnly repositoryReadOnly,
+    ILoggedUserService loggedUserService)
+    : IUpdateTaskUseCase
 {
-    private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly ITaskRepositoryUpdateOnly _repositoryUpdateOnly;
-    private readonly ITaskRepositoryReadOnly _repositoryReadOnly;
-    private readonly ILoggedUserService _loggedUserService;
-
-    public UpdateTaskUseCase(IMapper mapper, 
-        IUnitOfWork unitOfWork, 
-        ITaskRepositoryUpdateOnly repositoryUpdateOnly,
-        ITaskRepositoryReadOnly repositoryReadOnly,
-        ILoggedUserService loggedUserService)
-    {
-        _mapper = mapper;
-        _unitOfWork = unitOfWork;
-        _repositoryUpdateOnly = repositoryUpdateOnly;
-        _repositoryReadOnly = repositoryReadOnly;
-        _loggedUserService = loggedUserService;
-    }
     
     public async Task Execute(long id, RequestTaskJson requestTask)
     {
         await Validate(requestTask);
 
-        var creatorId = _loggedUserService.User().Result.Id;
+        var creatorId = loggedUserService.User().Result.Id;
         
-        var result = await _repositoryReadOnly.GetById(id, creatorId);
+        var result = await repositoryReadOnly.GetById(id, creatorId);
         
         if(result == null)
             throw new NotFoundException("Task not found.");
         
-        _mapper.Map(requestTask, result);
+        mapper.Map(requestTask, result);
         
-        _repositoryUpdateOnly.Update(result);
+        repositoryUpdateOnly.Update(result);
         
-        await _unitOfWork.CommitAsync();
+        await unitOfWork.CommitAsync();
     }
 
     private async Task Validate(RequestTaskJson request)

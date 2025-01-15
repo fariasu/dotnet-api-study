@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.RateLimiting;
 using TaskManager.Application.UseCases.Users.Create;
 using TaskManager.Application.UseCases.Users.Login;
 using TaskManager.Application.UseCases.Users.Update;
+using TaskManager.Application.UseCases.Users.Update.Password;
+using TaskManager.Application.UseCases.Users.Update.Profile;
 using TaskManager.Communication.DTOs.Tasks.Response;
 using TaskManager.Communication.DTOs.Users.Requests;
 using TaskManager.Communication.DTOs.Users.Responses;
@@ -37,13 +39,24 @@ public class UserController : ControllerBase
     }
 
     [Authorize]
-    [HttpPost("update")]
+    [HttpPost("update-profile")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> UpdateUser([FromServices] IUpdateProfileUseCase useCase, [FromBody] RequestUpdateProfileJson request)
+    public async Task<IActionResult> UpdateUserProfile([FromServices] IUpdateProfileUseCase useCase, [FromBody] RequestUpdateProfileJson request)
     {
         await useCase.Execute(request);
 
+        return Ok();
+    }
+
+    [Authorize]
+    [HttpPost("update-password")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UpdateUserPassword([FromServices] IUpdatePasswordUseCase useCase, [FromBody] RequestUpdatePasswordJson request)
+    {
+        await useCase.Execute(request);
+        
         return Ok();
     }
 }

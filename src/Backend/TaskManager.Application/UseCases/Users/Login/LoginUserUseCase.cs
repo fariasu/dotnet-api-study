@@ -11,26 +11,15 @@ using TaskManager.Exception.ExceptionsBase;
 
 namespace TaskManager.Application.UseCases.Users.Login;
 
-public class LoginUserUseCase : ILoginUserUseCase
+public class LoginUserUseCase(
+    IMapper mapper,
+    IUnitOfWork unitOfWork,
+    IUserRepositoryReadOnly userRepositoryReadOnly,
+    IPasswordEncrypter passwordEncrypter,
+    ITokenGenerator tokenGenerator)
+    : ILoginUserUseCase
 {
-    private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IUserRepositoryReadOnly _userRepositoryReadOnly;
-    private readonly IPasswordEncrypter _passwordEncrypter;
-    private readonly ITokenGenerator _tokenGenerator;
-
-    public LoginUserUseCase(IMapper mapper, 
-        IUnitOfWork unitOfWork, 
-        IUserRepositoryReadOnly userRepositoryReadOnly,
-        IPasswordEncrypter passwordEncrypter,
-        ITokenGenerator tokenGenerator)
-    {
-        _mapper = mapper;
-        _unitOfWork = unitOfWork;
-        _userRepositoryReadOnly = userRepositoryReadOnly;
-        _passwordEncrypter = passwordEncrypter;
-        _tokenGenerator = tokenGenerator;
-    }
+    
     public async Task<ResponseCreatedUserJson> Execute(RequestLoginUserJson request)
     {
         var entity = await Validate(request);
@@ -38,7 +27,7 @@ public class LoginUserUseCase : ILoginUserUseCase
         return new ResponseCreatedUserJson()
         {
             Name = entity.Name,
-            Token = _tokenGenerator.GenerateToken(entity),
+            Token = tokenGenerator.GenerateToken(entity),
         };
     }
 
@@ -51,13 +40,13 @@ public class LoginUserUseCase : ILoginUserUseCase
             throw new ErrorOnValidationException(errorMessages);
         }
         
-        var userEntity = await _userRepositoryReadOnly.GetActiveUserWithEmail(request.Email);
+        var userEntity = await userRepositoryReadOnly.GetActiveUserWithEmail(request.Email);
         if (userEntity is null)
         {
             throw new InvalidLoginException();
         }
         
-        var passwordMatch = _passwordEncrypter.Verify(request.Password, userEntity.Password);
+        var passwordMatch = passwordEncrypter.Verify(request.Password, userEntity.Password);
         if (passwordMatch is false)
         {
             throw new InvalidLoginException();

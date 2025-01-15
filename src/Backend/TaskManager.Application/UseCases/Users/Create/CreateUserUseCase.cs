@@ -12,43 +12,28 @@ using TaskManager.Exception.ExceptionsBase;
 
 namespace TaskManager.Application.UseCases.Users.Create;
 
-public class CreateUserUseCase : ICreateUserUseCase
+public class CreateUserUseCase(
+    IMapper mapper,
+    IUnitOfWork unitOfWork,
+    IUserRepositoryWriteOnly userRepositoryWriteOnly,
+    IUserRepositoryReadOnly userRepositoryReadOnly,
+    IPasswordEncrypter passwordEncrypter,
+    ITokenGenerator tokenGenerator)
+    : ICreateUserUseCase
 {
-    private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IUserRepositoryWriteOnly _userRepositoryWriteOnly;
-    private readonly IUserRepositoryReadOnly _userRepositoryReadOnly;
-    private readonly IPasswordEncrypter _passwordEncrypter;
-    private readonly ITokenGenerator _tokenGenerator;
-
-    public CreateUserUseCase(IMapper mapper, 
-        IUnitOfWork unitOfWork, 
-        IUserRepositoryWriteOnly userRepositoryWriteOnly, 
-        IUserRepositoryReadOnly userRepositoryReadOnly,
-        IPasswordEncrypter passwordEncrypter,
-        ITokenGenerator tokenGenerator)
-    {
-        _mapper = mapper;
-        _unitOfWork = unitOfWork;
-        _userRepositoryWriteOnly = userRepositoryWriteOnly;
-        _userRepositoryReadOnly = userRepositoryReadOnly;
-        _passwordEncrypter = passwordEncrypter;
-        _tokenGenerator = tokenGenerator;
-    }
-    
     public async Task<ResponseCreatedUserJson> Execute(RequestRegisterUserJson request)
     {
         await Validate(request);
 
-        var userEntity = _mapper.Map<UserEntity>(request);
-        userEntity.Password = _passwordEncrypter.Encrypt(request.Password);
+        var userEntity = mapper.Map<UserEntity>(request);
+        userEntity.Password = passwordEncrypter.Encrypt(request.Password);
         userEntity.UserIdentifier = Guid.NewGuid();
         
-        await _userRepositoryWriteOnly.CreateUser(userEntity);
+        await userRepositoryWriteOnly.CreateUser(userEntity);
         
-        await _unitOfWork.CommitAsync();
+        await unitOfWork.CommitAsync();
 
-        var generatedToken = _tokenGenerator.GenerateToken(userEntity);
+        var generatedToken = tokenGenerator.GenerateToken(userEntity);
 
         return new ResponseCreatedUserJson()
         {
@@ -61,7 +46,7 @@ public class CreateUserUseCase : ICreateUserUseCase
     {
         var result = await new RegisterUserValidator().ValidateAsync(request);
         
-        var mailExists = await _userRepositoryReadOnly.ExistsActiveUserWithEmail(request.Email);
+        var mailExists = await userRepositoryReadOnly.ExistsActiveUserWithEmail(request.Email);
         if (mailExists)
         {
             result.Errors.Add(new ValidationFailure(string.Empty, "Email is already taken."));

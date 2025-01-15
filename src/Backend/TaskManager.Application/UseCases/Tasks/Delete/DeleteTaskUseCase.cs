@@ -5,35 +5,25 @@ using TaskManager.Exception.ExceptionsBase;
 
 namespace TaskManager.Application.UseCases.Tasks.Delete;
 
-public class DeleteTaskUseCase : IDeleteTaskUseCase
+public class DeleteTaskUseCase(
+    IUnitOfWork unitOfWork,
+    ITaskRepositoryWriteOnly repositoryWriteOnly,
+    ITaskRepositoryReadOnly repositoryReadOnly,
+    ILoggedUserService loggedUserService)
+    : IDeleteTaskUseCase
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly ITaskRepositoryWriteOnly _repositoryWriteOnly;
-    private readonly ITaskRepositoryReadOnly _repositoryReadOnly;
-    private readonly ILoggedUserService _loggedUserService;
-
-    public DeleteTaskUseCase(IUnitOfWork unitOfWork, 
-        ITaskRepositoryWriteOnly repositoryWriteOnly,
-        ITaskRepositoryReadOnly repositoryReadOnly,
-        ILoggedUserService loggedUserService)
-    {
-        _unitOfWork = unitOfWork;
-        _repositoryWriteOnly = repositoryWriteOnly;
-        _repositoryReadOnly = repositoryReadOnly;
-        _loggedUserService = loggedUserService;
-    }
-
+    
     public async Task Execute(long id)
     {
-        var creatorId = _loggedUserService.User().Result.Id;
+        var creatorId = loggedUserService.User().Result.Id;
 
-        var result = await _repositoryReadOnly.GetById(id, creatorId);
+        var result = await repositoryReadOnly.GetById(id, creatorId);
 
         if (result == null)
             throw new NotFoundException("Task not found.");
 
-        _repositoryWriteOnly.DeleteTask(result);
+        repositoryWriteOnly.DeleteTask(result);
         
-        await _unitOfWork.CommitAsync();
+        await unitOfWork.CommitAsync();
     }
 }

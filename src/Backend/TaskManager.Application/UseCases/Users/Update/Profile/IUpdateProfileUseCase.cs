@@ -1,6 +1,6 @@
 ﻿using TaskManager.Communication.DTOs.Users.Requests;
 
-namespace TaskManager.Application.UseCases.Users.Update;
+namespace TaskManager.Application.UseCases.Users.Update.Profile;
 
 public interface IUpdateProfileUseCase
 {
