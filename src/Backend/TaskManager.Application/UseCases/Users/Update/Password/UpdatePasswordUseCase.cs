@@ -21,7 +21,7 @@ public class UpdatePasswordUseCase(
     {
         await Validate(request);
         
-        var loggedUser = loggedUserService.User().Result;
+        var loggedUser = await loggedUserService.User();
         var dbUserEntity = await userRepositoryReadOnly.GetActiveUserWithEmail(loggedUser.Email);
         
         var encryptedPassword = passwordEncrypter.Encrypt(request.Password);

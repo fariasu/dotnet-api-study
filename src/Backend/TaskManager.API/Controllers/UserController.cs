@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
-using TaskManager.Application.UseCases.Users.Create;
 using TaskManager.Application.UseCases.Users.Login;
+using TaskManager.Application.UseCases.Users.Register;
 using TaskManager.Application.UseCases.Users.Update;
 using TaskManager.Application.UseCases.Users.Update.Password;
 using TaskManager.Application.UseCases.Users.Update.Profile;
@@ -21,7 +21,7 @@ public class UserController : ControllerBase
     [HttpPost("register")]
     [ProducesResponseType(typeof(ResponseCreatedUserJson), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> RegisterUser([FromServices] ICreateUserUseCase useCase, [FromBody] RequestRegisterUserJson request)
+    public async Task<IActionResult> RegisterUser([FromServices] IRegisterUserUseCase useCase, [FromBody] RequestRegisterUserJson request)
     {
          var response = await useCase.Execute(request); 
          

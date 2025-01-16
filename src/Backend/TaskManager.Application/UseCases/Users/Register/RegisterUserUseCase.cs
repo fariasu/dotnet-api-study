@@ -9,15 +9,15 @@ using TaskManager.Domain.Repositories.Users;
 using TaskManager.Domain.Security.Cryptography;
 using TaskManager.Exception.ExceptionsBase;
 
-namespace TaskManager.Application.UseCases.Users.Create;
+namespace TaskManager.Application.UseCases.Users.Register;
 
-public class CreateUserUseCase(
+public class RegisterUserUseCase(
     IMapper mapper,
     IUnitOfWork unitOfWork,
     IUserRepositoryWriteOnly userRepositoryWriteOnly,
     IUserRepositoryReadOnly userRepositoryReadOnly,
     IPasswordEncrypter passwordEncrypter)
-    : ICreateUserUseCase
+    : IRegisterUserUseCase
 {
     public async Task<ResponseCreatedUserJson> Execute(RequestRegisterUserJson request)
     {

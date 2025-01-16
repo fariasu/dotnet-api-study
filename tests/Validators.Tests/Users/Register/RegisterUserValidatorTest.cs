@@ -40,9 +40,10 @@ public class RegisterUserValidatorTest
     }
 
     [Theory]
-    [InlineData(null)]
     [InlineData("")]
     [InlineData(" ")]
+    [InlineData("test.test")]
+    [InlineData("@test.com")]
     public void RegisterUser_InvalidMail_Error(string mail)
     {
         //Arrange

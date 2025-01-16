@@ -1,9 +1,9 @@
 ﻿using TaskManager.Communication.DTOs.Users.Requests;
 using TaskManager.Communication.DTOs.Users.Responses;
 
-namespace TaskManager.Application.UseCases.Users.Create;
+namespace TaskManager.Application.UseCases.Users.Register;
 
-public interface ICreateUserUseCase
+public interface IRegisterUserUseCase
 {
     public Task<ResponseCreatedUserJson> Execute(RequestRegisterUserJson request);
 }
