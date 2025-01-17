@@ -15,9 +15,9 @@ public class GetByIdUseCase(
     
     public async Task<ResponseTaskJson> Execute(long id)
     {
-        var creatorId = loggedUserService.User().Result.Id;
+        var loggedUser = await loggedUserService.GetUserAsync();
         
-        var result = await taskRepositoryReadOnly.GetByIdNoTracking(id, creatorId);
+        var result = await taskRepositoryReadOnly.GetByIdNoTracking(id, loggedUser.Id);
 
         if (result == null)
             throw new NotFoundException("Task not found.");

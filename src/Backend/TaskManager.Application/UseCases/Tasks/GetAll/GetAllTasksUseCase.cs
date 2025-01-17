@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using TaskManager.Communication.DTOs.Tasks.Request;
 using TaskManager.Communication.DTOs.Tasks.Response;
 using TaskManager.Domain.Repositories.Tasks;
 using TaskManager.Domain.Services;
@@ -12,15 +13,24 @@ public class GetAllTasksUseCase(
     : IGetAllTasksUseCase
 {
     
-    public async Task<ResponseTasksJson> Execute()
+    public async Task<ResponseTasksJson> Execute(RequestTasksJson request)
     {
-        var creatorId = loggedUserService.User().Result.Id;
+        var (page, pageSize) = Validate(request);
         
-        var result = await repositoryReadOnly.GetAll(creatorId);
+        var loggedUser = await loggedUserService.GetUserAsync();
+        
+        var result = await repositoryReadOnly.GetAll(loggedUser.Id, page, pageSize);
         
         return new ResponseTasksJson()
         {
             Tasks = mapper.Map<List<ResponseTaskShortJson>>(result)
         };
+    }
+
+    private (int Page, int PageSize) Validate(RequestTasksJson request)
+    {
+        var page = request.Page < 0 ? 0 : request.Page;
+        var pageSize = request.PageSize < 5 ? 5 : request.PageSize;
+        return (page, pageSize);
     }
 }

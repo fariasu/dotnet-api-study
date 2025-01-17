@@ -4,5 +4,5 @@ namespace TaskManager.Domain.Services;
 
 public interface ILoggedUserService
 {
-    public Task<UserEntity> User();
+    public Task<UserEntity> GetUserAsync();
 }

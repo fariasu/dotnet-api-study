@@ -24,9 +24,15 @@ public class TaskRepository : ITaskRepositoryWriteOnly, ITaskRepositoryReadOnly,
         _dbContext.Tasks.Remove(taskEntity);
     }
 
-    public async Task<List<TaskEntity>?> GetAll(long creatorId)
+    public async Task<List<TaskEntity>?> GetAll(long creatorId, int page, int pageSize)
     {
-        return await _dbContext.Tasks.AsNoTracking().Where(task => task.CreatorId == creatorId).ToListAsync();
+        return await _dbContext.Tasks
+            .AsNoTracking()
+            .Where(task => task.CreatorId == creatorId)
+            .Skip((page -1 ) * pageSize)
+            .Take(pageSize)
+            .OrderByDescending(task => task.TaskPriority)
+            .ToListAsync();
     }
 
     public async Task<TaskEntity?> GetByIdNoTracking(long id, long creatorId)

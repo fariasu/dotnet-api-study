@@ -30,13 +30,14 @@ public class TasksController : ControllerBase
         return Created("", response);
     }
 
-    [HttpGet("get")]
+    [HttpPost("get")]
     [ProducesResponseType(typeof(ResponseTasksJson), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> GetTasks([FromServices] IGetAllTasksUseCase useCase)
+    public async Task<IActionResult> GetTasks([FromServices] IGetAllTasksUseCase useCase, 
+        [FromBody] RequestTasksJson request)
     {
-        var response = await useCase.Execute();
+        var response = await useCase.Execute(request);
 
         if (response.Tasks.Count == 0) 
             return NoContent();

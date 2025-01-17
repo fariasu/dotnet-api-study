@@ -24,7 +24,9 @@ public class CreateTaskUseCase(
         await Validate(request);
         
         var taskEntity = mapper.Map<TaskEntity>(request);
-        taskEntity.CreatorId = loggedUserService.User().Result.Id;
+        
+        var loggedUser = await loggedUserService.GetUserAsync();
+        taskEntity.CreatorId = loggedUser.Id;
 
         await taskRepositoryWriteOnly.CreateTask(taskEntity);
 

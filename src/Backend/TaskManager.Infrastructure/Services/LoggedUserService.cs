@@ -18,7 +18,7 @@ public class LoggedUserService : ILoggedUserService
         _tokenProvider = tokenProvider;
     }
 
-    public async Task<UserEntity> User()
+    public async Task<UserEntity> GetUserAsync()
     {
         var token = _tokenProvider.Value();
 

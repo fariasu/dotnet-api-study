@@ -68,6 +68,6 @@ public class UpdateProfileUseCaseTest
             loggedUserService.User(userEntity);
         }
         
-        return new UpdateProfileUseCase(mapper, unitOfWork, writeOnlyRepository, readOnlyRepository.Build(), loggedUserService.Build());
+        return new UpdateProfileUseCase(mapper, unitOfWork, readOnlyRepository.Build(), loggedUserService.Build());
     }
 }

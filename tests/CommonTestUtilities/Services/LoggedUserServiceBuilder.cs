@@ -15,7 +15,7 @@ public class LoggedUserServiceBuilder
 
     public void User(UserEntity userEntity)
     {
-        _mock.Setup(loggedUserService => loggedUserService.User()).ReturnsAsync(userEntity);
+        _mock.Setup(loggedUserService => loggedUserService.GetUserAsync()).ReturnsAsync(userEntity);
     }
     
     public ILoggedUserService Build() => _mock.Object;

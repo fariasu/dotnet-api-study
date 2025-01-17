@@ -11,7 +11,6 @@ namespace TaskManager.Application.UseCases.Users.Update.Profile;
 public class UpdateProfileUseCase(
     IMapper mapper,
     IUnitOfWork unitOfWork,
-    IUserRepositoryWriteOnly userRepositoryWriteOnly,
     IUserRepositoryReadOnly userRepositoryReadOnly,
     ILoggedUserService loggedUserService)
     : IUpdateProfileUseCase
@@ -20,9 +19,9 @@ public class UpdateProfileUseCase(
     public async Task Execute(RequestUpdateProfileJson request)
     {
         await Validate(request);
-        
-        var loggedUserEmail = loggedUserService.User().Result.Email;
-        var userEntity = await userRepositoryReadOnly.GetActiveUserWithEmail(loggedUserEmail);
+
+        var loggedUser = await loggedUserService.GetUserAsync();
+        var userEntity = await userRepositoryReadOnly.GetActiveUserWithEmail(loggedUser.Email);
         
         mapper.Map(request, userEntity);
 

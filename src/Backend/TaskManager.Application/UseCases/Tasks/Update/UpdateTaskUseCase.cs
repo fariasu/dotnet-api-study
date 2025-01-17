@@ -21,9 +21,9 @@ public class UpdateTaskUseCase(
     {
         await Validate(requestTask);
 
-        var creatorId = loggedUserService.User().Result.Id;
+        var loggedUser = await loggedUserService.GetUserAsync();
         
-        var result = await repositoryReadOnly.GetById(id, creatorId);
+        var result = await repositoryReadOnly.GetById(id, loggedUser.Id);
         
         if(result == null)
             throw new NotFoundException("Task not found.");
