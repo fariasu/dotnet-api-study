@@ -102,7 +102,7 @@ public static class DependencyInjectionExtension
         {
             options.AddFixedWindowLimiter("FixedPolicy", limiterOptions =>
             {
-                limiterOptions.PermitLimit = 10;
+                limiterOptions.PermitLimit = 20;
                 limiterOptions.Window = TimeSpan.FromSeconds(20);
             });
 

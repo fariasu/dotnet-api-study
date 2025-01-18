@@ -13,7 +13,7 @@ using TaskManager.Exception.ExceptionsBase;
 
 namespace TaskManager.API.Controllers;
 
-[Route("[controller]")]
+[Route("v1/[controller]")]
 [ApiController]
 [EnableRateLimiting("FixedPolicy")]
 public class UserController : ControllerBase

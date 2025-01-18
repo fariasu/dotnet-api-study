@@ -12,7 +12,7 @@ using TaskManager.Communication.DTOs.Tasks.Response;
 namespace TaskManager.API.Controllers;
 
 
-[Route("[controller]")]
+[Route("v1/[controller]")]
 [ApiController]
 [Authorize]
 [EnableRateLimiting("FixedPolicy")]
