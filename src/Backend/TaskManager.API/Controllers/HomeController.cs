@@ -3,10 +3,10 @@
 namespace TaskManager.API.Controllers;
 
 [ApiController]
-[Route("")]
+[Route("/health-check")]
 public class HomeController : ControllerBase
 {
-    [HttpGet("")]
+    [HttpGet]
     public IActionResult HealthCheck()
     {
         return Ok("It's working!");
