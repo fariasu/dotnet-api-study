@@ -1,4 +1,5 @@
-﻿using FluentMigrator;
+﻿using System.Data;
+using FluentMigrator;
 
 namespace TaskManager.Infrastructure.Migrations.Versions;
 
@@ -23,9 +24,10 @@ public class Version0000001 : ForwardOnlyMigration
             .WithColumn("Email").AsString(255).NotNullable()
             .WithColumn("Password").AsString(512).NotNullable()
             .WithColumn("UserIdentifier").AsGuid().NotNullable().WithDefault(SystemMethods.NewGuid);
-        
+
         Create.ForeignKey("FK_Tasks_Users")
             .FromTable("Tasks").ForeignColumn("CreatorId")
-            .ToTable("Users").PrimaryColumn("Id");
+            .ToTable("Users").PrimaryColumn("Id")
+            .OnDelete(Rule.Cascade);
     }
 }
