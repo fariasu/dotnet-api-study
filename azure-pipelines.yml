@@ -1,0 +1,37 @@
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+  dockerRegistryServiceConnection: 'adba1eb8-d3f5-47da-97fd-7bff6a7c2219'
+  imageRepository: 'fariasudotnetapistudy'
+  containerRegistry: 'taskmanager.azurecr.io'
+  dockerfilePath: 'Dockerfile'
+  tag: '$(Build.BuildId)'
+
+pool:
+  name: Contabo
+    
+steps:
+
+- task: DownloadSecureFile@1
+  displayName: Download appsettings.json
+  name: appsettings
+  inputs: 
+    secureFile: 'appsettings.Production.json'
+
+- script: |
+    cp $(appsettings.secureFilePath) src/Backend/TaskManager.API
+
+- task: Docker@2
+  displayName: Build and push an image to container registry
+  inputs:
+    command: buildAndPush
+    repository: $(imageRepository)
+    dockerfile: $(dockerfilePath)
+    containerRegistry: $(dockerRegistryServiceConnection)
+    tags: |
+      latest
+      $(tag)
