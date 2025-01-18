@@ -7,6 +7,7 @@ COPY TaskManager.sln ./
 
 # Copiar todos os projetos para dentro do container
 COPY src/Backend/ ./src/Backend/
+COPY tests/ ./tests/
 
 # Restaurar dependências
 RUN dotnet restore TaskManager.sln
