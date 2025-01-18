@@ -10,7 +10,7 @@ COPY src/Backend/ ./src/Backend/
 
 # Restaurar dependências
 WORKDIR /app/src/Backend/TaskManager.API
-RUN dotnet restore /app/src/
+RUN dotnet restore /app/
 
 # Publicar a aplicação em modo Release
 RUN dotnet publish -c Release -o /app/out ../../..
