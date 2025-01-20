@@ -4,7 +4,7 @@ namespace TaskManager.API.Controllers;
 
 [ApiController]
 [Route("")]
-public class HomeController : ControllerBase
+public class HealthCheckController : ControllerBase
 {
     [HttpGet("")]
     public IActionResult HealthCheck()

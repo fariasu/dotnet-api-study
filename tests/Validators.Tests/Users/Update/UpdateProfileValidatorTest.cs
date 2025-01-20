@@ -28,6 +28,7 @@ public class UpdateProfileValidatorTest
         //Arrange
         var validator = new UpdateProfileValidator();
         var request = RequestUpdateProfileJsonBuilder.Build();
+        request.Name = name;
         
         //Act
         var result = validator.Validate(request);
