@@ -23,7 +23,9 @@ public class GetAllTasksUseCase(
         
         return new ResponseTasksJson()
         {
-            Tasks = mapper.Map<List<ResponseTaskShortJson>>(result)
+            Tasks = mapper.Map<List<ResponseTaskShortJson>>(result),
+            Page = page,
+            PageSize = pageSize
         };
     }
 
